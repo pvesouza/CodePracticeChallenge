@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1638032458 source:/home/pedro/Documentos/CodePracticeChallenge/StringProblem1_Facebook/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
