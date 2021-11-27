@@ -35,11 +35,7 @@ char* rotationalCipher(char input[], int rotationFactor) {
             input[i] = rotate(input[i], 'a', 'z', rotationFactor);
 
         }
-
-        //printf("%c", input[i]);
     }
-
-    //printf("\n");
 
     return input;
 
