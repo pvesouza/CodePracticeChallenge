@@ -1,49 +1,79 @@
 #include <stdio.h>
 // Add any extra import statements you may need here
 
-int *ptr = nullptr;
 
 
 // Find the Three Large
-int* findThreeLargest (int arr[], int n, int *ptr_aux) {
+int findThreeLargest (int *ptr, int n) {
 
-    int threeLargest[3] = {0, 0, 0};
-    int lastPosition[3] = {0, 0, 0};
+    int threeLargest[3] = {0,0,0};
+    int lastPosition[3] = {0,0,0};
+    int i = 0;
 
-    for (int i = 0; i < n; i++){
-        if (threeLargest[2] < arr[i]) {
-            threeLargest[2] = arr[i];
+
+    for (i = 0; i <= n; i++){
+        if (threeLargest[2] < *(ptr + i)) {
+            threeLargest[2] = *(ptr + i);
             lastPosition[2] = i;
         }
     }
 
-    for (int i = 0; i < n; i++) {
+
+    for (i = 0; i <= n; i++) {
         if (i != lastPosition[2]) {
-            if (threeLargest[1] < arr[i]) {
-                threeLargest[1] = arr[i];
+            if (threeLargest[1] < *(ptr + i)) {
+                threeLargest[1] = *(ptr + i);
                 lastPosition[1] = i;
             }
         }
     }
 
-    for (int i = 0; i < n; i++) {
+    for (i = 0; i <= n; i++) {
         if (i != lastPosition[2] && i != lastPosition[1]) {
-            if (threeLargest[0] < arr[i]) {
-                threeLargest[0] = arr[i];
+            if (threeLargest[0] < *(ptr + i)) {
+                threeLargest[0] = *(ptr + i);
                 lastPosition[0] = i;
             }
         }
     }
 
-    ptr_aux = threeLargest;
-    return ptr_aux;
+    return threeLargest[0] * threeLargest[1] * threeLargest[2];
+
+}
+
+// Copies n_bytes from source to destiny
+void memcopy(int destiny[], int source[], int n_bytes)
+{
+    for (int i = 0; i < n_bytes; i++) {
+
+        destiny[i] = source[i];
+    }
 
 }
 
 
 int* findMaxProduct(int arr[], int n, int *output_size) {
 
+    int array_out[n];
+    int var = *output_size;
+    int *ptr_threeLargest = arr;
 
+    for (int i = 0; i < n; i++) {
+
+        if (i < 2){
+            array_out[i] = -1;
+            var++;              //Incrementa o tamanho do array de saída
+        }else{
+            array_out[i] = findThreeLargest(ptr_threeLargest, i);
+            var++;
+        }
+    }
+
+    *output_size = var;
+
+    memcopy(arr, array_out, n);
+
+    return arr;
 
 }
 
@@ -105,7 +135,7 @@ int main() {
   int n_1 = 5;
   int arr_1[] = {1, 2, 3, 4, 5};
   int expected_1[] = {-1, -1, 6, 24, 60};
-  int output_1_size;
+  int output_1_size = 0;
   int *output_1 = findMaxProduct(arr_1, n_1, &output_1_size);
   check(expected_1, output_1, n_1, output_1_size);
 
